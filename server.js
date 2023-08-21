@@ -1,13 +1,16 @@
-const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const app = express();
-const port = 3000;
+let express = require('express');
+//const { MongoClient, ServerApiVersion } = require('mongodb');
+let app = express();
+let port = process.env.port || 3000;
+require('./dbconnection');
+let router = require('./routers/router');
 
 app.use(express.static(__dirname + '/'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use('/api/cat', router);
 
-const uri = "mongodb+srv://40thomasroy:40Thomasroy@cluster0.klekhm5.mongodb.net/?retryWrites=true&w=majority";
+/*const uri = "mongodb+srv://40thomasroy:40Thomasroy@cluster0.klekhm5.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {
     serverApi: {
         version: ServerApiVersion.v1,
@@ -64,9 +67,9 @@ function getAllCats(callback) {
     collection.find({}).toArray(callback);
 }
 
-runDB().catch(console.dir);
+runDB().catch(console.dir);*/
 
 app.listen(port, async () => {
     console.log(`Server started on port ${port}`);
-    await runDB();
+    // await runDB();
 });
